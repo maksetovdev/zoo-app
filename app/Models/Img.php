@@ -4,16 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Translatable\HasTranslations;
 
-class Region extends Model
+class Img extends Model
 {
     use HasFactory;
-    use HasTranslations;
-
     protected $fillable = [
-        'name'
+        'img_name'
     ];
-    
-    public $translatable = ['name'];
 }
