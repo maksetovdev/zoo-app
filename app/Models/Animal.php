@@ -5,11 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Animal extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'name',
+        'region_id',
+        'price',
+        'description',
+        'category_id',
+        'like',
+        'quantity',
+    ];
     
     public function user(): BelongsTo
     {
@@ -21,14 +32,14 @@ class Animal extends Model
         return $this->belongsTo(Region::class);
     }
     
-    public function location(): BelongsTo
+    public function location(): HasOne
     {
-        return $this->belongsTo(Location::class);
+        return $this->hasOne(Location::class);
     }
 
-    public function img(): BelongsTo
+    public function images(): HasMany
     {
-        return $this->belongsTo(Img::class);
+        return $this->hasMany(Img::class);
     }
 
     public function category(): BelongsTo
