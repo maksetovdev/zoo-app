@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\UserServices\userStore;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function login()
     {
         //
     }
@@ -20,7 +23,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return 'good';
+        //dd(gettype($request));   
+        try
+        {
+            [$user, $token] = app(userStore::class)->execute($request->all());
+            return response([
+                'user data' => $user,
+                'token' => $token,
+            ]);
+        }
+        catch(ValidationException $error)
+        {
+            return response([
+                'error' => $error->validator->errors()->all()
+            ]);
+        }
     }
 
     /**
