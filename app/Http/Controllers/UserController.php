@@ -3,19 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\UserServices\userLogin;
 use App\Services\UserServices\userStore;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function login()
+    public function login(Request $request)
     {
-        //
+        try {
+            [$user, $token] = app(userLogin::class)->execute($request->all());
+            return response([
+                'user' => $user,
+                'token' => $token
+            ]);
+        } catch (ValidationException $error) {
+            return response([
+                'error' => $error->validator->errors()->all()
+            ]);
+        } catch (ModelNotFoundException $m_error) {
+            return response([
+                'error' => 'User not found or password is incorrect!'
+            ]);
+        }
+        
     }
 
     /**
@@ -43,9 +60,9 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show()
     {
-        //
+        return Auth::user();
     }
 
     /**

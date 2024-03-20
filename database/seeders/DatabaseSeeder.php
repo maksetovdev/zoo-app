@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
 
             User::create([
             'username' => 'superadmin',
-            'phone' => '123',
+            'phone' => '+998991221706',
             'region_id' => 1,
             'password' => Hash::make('superadminpassword'),
             'role' => 'superadmin',
