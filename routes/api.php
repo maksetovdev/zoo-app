@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -15,3 +16,5 @@ Route::post('user/login',[UserController::class,'login']);
 Route::get('user/profile',[UserController::class,'show'])->middleware('auth:sanctum');
 
 Route::apiResource('region',RegionController::class);
+
+Route::apiResource('admins',AdminController::class);
