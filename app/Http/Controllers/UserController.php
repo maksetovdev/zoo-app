@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\UserServices\userDelete;
 use App\Services\UserServices\userLogin;
 use App\Services\UserServices\userStore;
+use App\Services\UserServices\userUpdate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,16 +70,32 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            return app(userUpdate::class)->execute($request->all(),$id);
+        } catch (ValidationException $error) {
+            return response([
+                'error' => $error->validator->errors()->all()
+            ]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, $id)
     {
-        //
+        try {
+            return app(userDelete::class)->execute($request->all(),$id);
+        } catch (ValidationException $error) {
+            return response([
+                'error' => $error->validator->errors()->all()
+            ]);
+        }catch (ModelNotFoundException $m_error) {
+            return response([
+                'error' => 'User not found or username is incorrect!'
+            ]);
+        }
     }
 }
