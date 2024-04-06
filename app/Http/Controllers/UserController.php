@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\userDeleteRequest;
 use App\Models\User;
 use App\Services\UserServices\userDelete;
 use App\Services\UserServices\userLogin;
@@ -84,18 +85,8 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, $id)
+    public function destroy(userDeleteRequest $request, $id)
     {
-        try {
-            return app(userDelete::class)->execute($request->all(),$id);
-        } catch (ValidationException $error) {
-            return response([
-                'error' => $error->validator->errors()->all()
-            ]);
-        }catch (ModelNotFoundException $m_error) {
-            return response([
-                'error' => 'User not found or username is incorrect!'
-            ]);
-        }
+        return app(userDelete::class)->execute($request->all(), $id);
     }
 }

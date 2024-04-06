@@ -21,7 +21,11 @@ class Animal extends Model
         'like',
         'quantity',
     ];
-    
+
+    protected $hidden = [
+        'is_checked',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -46,7 +50,5 @@ class Animal extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    
-    
-    
+
 }

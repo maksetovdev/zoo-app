@@ -26,6 +26,6 @@ class adminStore extends BaseService {
       'region_id' => $data['region_id'],
       'password' => Hash::make($data['password']),
       'role' => 'admin',
-    ]);
+    ]); 
   }
 }

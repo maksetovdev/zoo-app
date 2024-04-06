@@ -1,13 +1,13 @@
 <?php
 
-use App\Models\Category;
-use App\Models\Img;
-use App\Models\Location;
-use App\Models\Region;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\User;
+use App\Models\Region;
+use App\Models\Location;
+use App\Models\Img;
+use App\Models\Category;
 
 return new class extends Migration
 {
@@ -28,6 +28,7 @@ return new class extends Migration
             $table->foreignIdFor(Category::class)->constrained('categories');
             $table->bigInteger('like');
             $table->bigInteger('quantity');
+            $table->boolean('is_checked');
             $table->timestamps();
         });
     }

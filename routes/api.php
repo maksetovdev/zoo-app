@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -17,4 +18,6 @@ Route::get('user/profile',[UserController::class,'show'])->middleware('auth:sanc
 
 Route::apiResource('region',RegionController::class);
 
-Route::apiResource('admins',AdminController::class);
+Route::prefix('animal')->middleware('auth:sanctum')->group(function() {
+    Route::post('/store',[AnimalController::class, 'store']);
+});
