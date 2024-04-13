@@ -6,6 +6,7 @@ use App\Http\Requests\animalStoreRequest;
 use App\Http\Resources\AnimalResource;
 use App\Models\Animal;
 use App\Services\AnimalServices\animalDelete;
+use App\Services\AnimalServices\animalShow;
 use Illuminate\Http\Request;
 use App\Services\AnimalServices\animalStore;
 use Illuminate\Support\Facades\Auth;
@@ -23,9 +24,9 @@ class AnimalController extends Controller
         return new AnimalResource(app(animalStore::class)->execute($request->all()));
     }
 
-    public function show(Animal $animal)
+    public function show($id)
     {
-        //
+        return app(animalShow::class)->execute($id);
     }
 
     public function update(Request $request, Animal $animal)
