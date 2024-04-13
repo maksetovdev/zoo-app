@@ -11,6 +11,8 @@ class Img extends Model
     use HasFactory;
 
     protected $fillable = [
+        'img_name',
+        'animal_id',
         'file_name',
         'animal_id',
     ];

@@ -35,7 +35,7 @@ class UserController extends Controller
                 'error' => 'User not found or password is incorrect!'
             ]);
         }
-        
+
     }
 
     /**
@@ -43,7 +43,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //dd(gettype($request));   
+        //dd(gettype($request));
         try
         {
             [$user, $token] = app(userStore::class)->execute($request->all());

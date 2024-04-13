@@ -2,51 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\animalStoreRequest;
+use App\Http\Resources\AnimalResource;
 use App\Models\Animal;
+use App\Services\AnimalServices\animalDelete;
 use Illuminate\Http\Request;
 use App\Services\AnimalServices\animalStore;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AnimalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return AnimalResource::collection(\auth()->user()->animals);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(animalStoreRequest $request)
     {
-        $animalId = app(animalStore::class)->execute($request->all());
-        return DB::table('animals')->where('id', '=', $animalId)->get();
+        return new AnimalResource(app(animalStore::class)->execute($request->all()));
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Animal $animal)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Animal $animal)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Animal $animal)
+    public function destroy($id)
     {
-        //
+        app(animalDelete::class)->execute($id);
+        return response([
+            'status' => 'successfully'
+        ]);
     }
 }

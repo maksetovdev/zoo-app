@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\UserController;
+use App\Models\Animal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,4 @@ Route::get('user/profile',[UserController::class,'show'])->middleware('auth:sanc
 
 Route::apiResource('region',RegionController::class);
 
-Route::prefix('animal')->middleware('auth:sanctum')->group(function() {
-    Route::post('/store',[AnimalController::class, 'store']);
-});
+Route::middleware('auth:sanctum')->apiResource('animal', AnimalController::class);

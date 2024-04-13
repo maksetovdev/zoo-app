@@ -18,6 +18,8 @@ class Animal extends Model
         'price',
         'description',
         'category_id',
+        'img_id',
+        'location_id',
         'like',
         'quantity',
     ];
@@ -35,10 +37,10 @@ class Animal extends Model
     {
         return $this->belongsTo(Region::class);
     }
-    
-    public function location(): HasOne
+
+    public function location(): BelongsTo
     {
-        return $this->hasOne(Location::class);
+        return $this->belongsTo(Location::class);
     }
 
     public function images(): HasMany

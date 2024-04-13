@@ -10,33 +10,30 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
-class animalStore extends BaseService  {
+class animalStore {
   public function execute($data) {
-
-    $loc_data = [
-      'longitude' => $data['longitude'],
+    $location = Location::create([
       'latitude' => $data['latitude'],
-    ];
-    $locationId = DB::table('locations')->insertGetId($loc_data);
+      'longitude' => $data['longitude']
+    ]);
 
-    $img_data = [
-      'img_name' => Storage::putFileAs('animal-img', $data['img'], time().$data['img']->getClientOriginalName())
-    ];
-    $imgId = DB::table('imgs')->insertGetId($img_data);
 
-    $animal_data = [
-      'user_id' => Auth::user()['id'],
-      'name' => $data['name'],
-      'region_id' => $data['region_id'],
-      'price' => $data['price'],
-      'description' => $data['description'],
-      'location_id' => $locationId,
-      'img_id' => $imgId,
-      'category_id' => $data['category_id'],
-      'like' => 0,
-      'quantity' => 1,
-      'is_checked' => false,
-    ];
-    return DB::table('animals')->insertGetId($animal_data);
+  $animal = auth()->user()->animals()->create([
+    'name' => $data['name'],
+    'region_id' => $data['region_id'],
+    'price' => $data['price'],
+    'description' => $data['description'],
+    'category_id' => $data['category_id'],
+    'location_id' => $location->id,
+    ]);
+
+    $imgNameWithPath = Storage::putFileAs('animal-img', $data['img'], time().$data['img']->getClientOriginalName());
+    $imgNameWithExplodes = explode("/", $imgNameWithPath);
+    $imgName = $imgNameWithExplodes[count($imgNameWithExplodes)-1];
+    $img = Img::create([
+        'animal_id' => $animal->id,
+        'img_name' =>  $imgName,
+    ]);
+    return $animal;
   }
 }

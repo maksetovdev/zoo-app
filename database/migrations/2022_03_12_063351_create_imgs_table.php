@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Animal;
 
 return new class extends Migration
 {
@@ -14,6 +15,7 @@ return new class extends Migration
         Schema::create('imgs', function (Blueprint $table) {
             $table->id();
             $table->text('img_name');
+            $table->foreignIdFor(Animal::class);
             $table->timestamps();
         });
     }
