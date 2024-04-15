@@ -28,8 +28,8 @@ class AnimalObserver
     public function deleting(Animal $animal): void
     {
         //deleting image, location
-        $location = $animal->location;
-        $location->delete();
+//        $location = $animal->location;
+//        $location->delete();
 
         $imgs = $animal->images;
         foreach ($imgs as $img) {

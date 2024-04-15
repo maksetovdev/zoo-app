@@ -47,10 +47,12 @@ class RegionController extends Controller
             ]);
         }
     }
-    
+
     public function destroy($id)
     {
         Region::where('id', $id)->first()->delete();
-        return true;
+        return response([
+            'success' => true
+        ]);
     }
 }

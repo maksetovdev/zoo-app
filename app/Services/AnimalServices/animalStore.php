@@ -27,13 +27,15 @@ class animalStore {
     'location_id' => $location->id,
     ]);
 
-    $imgNameWithPath = Storage::putFileAs('animal-img', $data['img'], time().$data['img']->getClientOriginalName());
-    $imgNameWithExplodes = explode("/", $imgNameWithPath);
-    $imgName = $imgNameWithExplodes[count($imgNameWithExplodes)-1];
-    $img = Img::create([
-        'animal_id' => $animal->id,
-        'img_name' =>  $imgName,
-    ]);
+    foreach ($data['images'] as $image) {
+      $imgNameWithPath = Storage::putFileAs('animal-img', $image, time().$image->getClientOriginalName());
+      $imgNameWithExplodes = explode("/", $imgNameWithPath);
+      $imgName = $imgNameWithExplodes[count($imgNameWithExplodes)-1];
+      Img::create([
+          'animal_id' => $animal->id,
+          'img_name' =>  $imgName,
+      ]);
+    }
     return $animal;
   }
 }
